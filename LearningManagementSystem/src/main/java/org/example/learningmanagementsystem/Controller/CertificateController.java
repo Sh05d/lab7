@@ -29,8 +29,10 @@ public class CertificateController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(400).body(message);
         }
-        certificateService.addCertificates(certificate);
-        return ResponseEntity.status(200).body(new ApiResponse("Certificate added successfully"));
+        if(certificateService.addCertificates(certificate)) {
+            return ResponseEntity.status(200).body(new ApiResponse("Certificate added successfully"));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("ID already used"));
     }
 
     @PutMapping("/update/{id}")
@@ -79,7 +81,11 @@ public class CertificateController {
 
     @PutMapping("/issued/{id}")
     public ResponseEntity<?> issuedCertificate( @PathVariable String id){
-        if(certificateService.issuedCertificate(id)){
+        int result = certificateService.issuedCertificate(id);
+        if(result == 1){
+            return ResponseEntity.status(400).body(new ApiResponse("Certificate issued already"));
+        }
+        if(result ==2 ){
             return ResponseEntity.status(200).body(new ApiResponse("Certificate issued successfully"));
         }
         return ResponseEntity.status(400).body(new ApiResponse("Certificate not found"));

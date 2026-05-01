@@ -27,8 +27,10 @@ public class CourseController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(400).body(message);
         }
-        courseService.addCourse(course);
-        return ResponseEntity.status(200).body(new ApiResponse("Course added successfully"));
+        if(courseService.addCourse(course)) {
+            return ResponseEntity.status(200).body(new ApiResponse("Course added successfully"));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("ID already used"));
     }
 
     @PutMapping("/update/{id}")

@@ -17,7 +17,6 @@ public class Course {
     @NotEmpty(message = "Category can't be empty")
     @Pattern(regexp = "(?i)^(Technology|Business|Design)",message = "Category should be one of these Technology, Business or Design")
     private String category;
-    @AssertFalse
     private boolean isPaid;
     @PositiveOrZero
     private double fees;

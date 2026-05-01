@@ -27,8 +27,10 @@ public class StudentController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(400).body(message);
         }
-        studentService.addStudent(student);
-        return ResponseEntity.status(200).body(new ApiResponse("Student added successfully"));
+        if(studentService.addStudent(student)) {
+            return ResponseEntity.status(200).body(new ApiResponse("Student added successfully"));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("ID already used"));
     }
 
     @PutMapping("/update/{id}")

@@ -15,13 +15,20 @@ public class SessionService {
         return sessions;
     }
 
-    public void addSessions(Session session){
+    public boolean addSessions(Session session){
+        for(Session session1: sessions){
+            if(session1.getId().equals(session.getId())){
+                return false;
+            }
+        }
         sessions.add(session);
+        return true;
     }
 
     public boolean updateSession(String id,Session session){
         for(int i=0; i< sessions.size(); i++){
             if(sessions.get(i).getId().equals(id)){
+                session.setId(id);
                 sessions.set(i,session);
                 return true;
             }

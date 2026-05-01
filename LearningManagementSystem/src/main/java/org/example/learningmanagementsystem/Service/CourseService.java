@@ -14,13 +14,26 @@ public class CourseService {
         return courses;
     }
 
-    public void addCourse(Course course){
+    public boolean addCourse(Course course){
+        for(Course course1: courses){
+            if(course1.getId().equals(course.getId())){
+                return false;
+            }
+        }
+        if(!course.isPaid()){
+            course.setFees(0);
+        }
         courses.add(course);
+        return true;
     }
 
     public boolean updateCourse(String id,Course course){
         for(int i=0; i< courses.size(); i++){
             if(courses.get(i).getId().equals(id)){
+                if(!course.isPaid()){
+                    course.setFees(0);
+                }
+                course.setId(id);
                 courses.set(i,course);
                 return true;
             }

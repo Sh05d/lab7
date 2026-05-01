@@ -17,7 +17,6 @@ public class Certificate {
     private String studentId;
     @NotEmpty(message = "Course ID can't be empty")
     private String courseId;
-    @AssertFalse
     private boolean isIssued;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate issuedDate;

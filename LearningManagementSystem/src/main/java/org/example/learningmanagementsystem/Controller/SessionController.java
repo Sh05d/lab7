@@ -27,8 +27,10 @@ public class SessionController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(400).body(message);
         }
-        sessionService.addSessions(session);
-        return ResponseEntity.status(200).body(new ApiResponse("Session added successfully"));
+        if(sessionService.addSessions(session)) {
+            return ResponseEntity.status(200).body(new ApiResponse("Session added successfully"));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("ID already used"));
     }
 
     @PutMapping("/update/{id}")

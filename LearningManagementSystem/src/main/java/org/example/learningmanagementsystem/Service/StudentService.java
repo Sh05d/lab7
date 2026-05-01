@@ -13,13 +13,20 @@ public class StudentService {
         return students;
     }
 
-    public void addStudent(Student student){
+    public boolean addStudent(Student student){
+        for(Student student1: students){
+            if(student1.getId().equals(student.getId())){
+                return false;
+            }
+        }
         students.add(student);
+        return true;
     }
 
     public boolean updateStudent(String id,Student student){
         for(int i=0; i< students.size(); i++){
             if(students.get(i).getId().equals(id)){
+                student.setId(id);
                 students.set(i,student);
                 return true;
             }

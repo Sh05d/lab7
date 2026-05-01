@@ -14,13 +14,23 @@ public class CertificateService {
         return certificates;
     }
 
-    public void addCertificates(Certificate certificate){
+    public boolean addCertificates(Certificate certificate){
+        for(Certificate certificate1: certificates){
+            if(certificate1.getId().equals(certificate.getId())){
+                return false;
+            }
+        }
+        if(!certificate.isIssued()){
+            certificate.setIssuedDate(null);
+        }
         certificates.add(certificate);
+        return true;
     }
 
     public boolean updateCertificate(String id,Certificate certificate){
         for(int i=0; i< certificates.size(); i++){
             if(certificates.get(i).getId().equals(id)){
+                certificate.setId(id);
                 certificates.set(i,certificate);
                 return true;
             }
@@ -68,14 +78,17 @@ public class CertificateService {
         return certificateArrayList;
     }
 
-    public boolean issuedCertificate(String id){
+    public int issuedCertificate(String id){
         for(Certificate certificate: certificates){
             if(certificate.getId().equals(id)){
+                if(certificate.isIssued()){
+                    return 1;
+                }
                 certificate.setIssued(true);
                 certificate.setIssuedDate(LocalDate.now());
-                return true;
+                return 2;
             }
         }
-        return false;
+        return 3;
     }
 }
